@@ -1,11 +1,6 @@
 using CLArrays, GPUArrays
 using FileIO, Interpolations, Colors, ColorVectorSpace, FixedPointNumbers
 
-description = """
-Poincare section of a chaotic neuronal network.
-The domination of OpenCL in this benchmark might be due to a better use of vector intrinsics in Transpiler.jl, but needs some
-more investigations.
-"""
 
 # Original poincare implementation by https://github.com/RainerEngelken
 # GPU version by Simon Danisch

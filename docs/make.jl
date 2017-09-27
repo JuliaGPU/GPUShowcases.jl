@@ -1,4 +1,4 @@
-using Documenter, GPUArrays
+using Documenter, GPUShowcases
 
 makedocs(
     modules = [GPUShowcases],
@@ -13,7 +13,6 @@ makedocs(
             "SmokeSimulation/smokesimulation.md"
         ],
     ],
-    doctest = test
 )
 
 deploydocs(

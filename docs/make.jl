@@ -20,5 +20,6 @@ deploydocs(
     repo   = "github.com/JuliaGPU/GPUShowcases.jl.git",
     julia  = "0.6",
     target = "build",
-    osname = "linux"
+    osname = "linux",
+    make = nothing
 )

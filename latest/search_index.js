@@ -37,7 +37,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PDE 1",
     "title": "PDE 1",
     "category": "section",
-    "text": "Show case ported from:Kuramoto-Sivashinksy-benchmark  <video width=\"512\" height=\"512\" controls>\n  <source src=\"pde1.webm\" type=\"video/webm\">\n  Your browser does not support webm. Please use a modern browser like Chrome or Firefox.\n  </video>"
+    "text": "Show case ported from:Kuramoto-Sivashinksy-benchmark  <video width=\"100%\" controls>\n  <source src=\"pde1.webm\" type=\"video/webm\">\n  Your browser does not support webm. Please use a modern browser like Chrome or Firefox.\n  </video>"
 },
 
 {
@@ -45,7 +45,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PDE 1",
     "title": "PDE 2",
     "category": "section",
-    "text": "  <video width=\"960\" height=\"540\" controls>\n  <source src=\"pde2.webm\" type=\"video/webm\">\n  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.\n  </video>"
+    "text": "  <video width=\"100%\" controls>\n  <source src=\"pde2.webm\" type=\"video/webm\">\n  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.\n  </video>"
 },
 
 {
@@ -77,7 +77,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Smoke Simulation",
     "title": "Smoke Simulation",
     "category": "section",
-    "text": "<video width=\"960\" height=\"540\" controls>\n  <source src=\"smoke_simulation.webm\" type=\"video/webm\">\n  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.\n</video>"
+    "text": "<video width=\"100%\" controls>\n  <source src=\"smoke_simulation.webm\" type=\"video/webm\">\n  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.\n</video>"
 },
 
 ]}

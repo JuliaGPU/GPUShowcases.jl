@@ -1,8 +1,7 @@
 using GPUArrays, Colors, FileIO, ImageFiltering
 using CLArrays
 
-
-img = RGB{Float32}.(load(joinpath(@__DIR__, "poincare.png")))
+img = RGB{Float32}.(load(joinpath(@__DIR__, "..", "Poincare", "poincare.png")))
 
 a = CLArray(img);
 out = similar(a);
@@ -11,4 +10,4 @@ imgc = similar(img)
 
 GPUArrays.convolution!(a, out, k)
 copy!(imgc, out)
-imgc
+save(joinpath(@__DIR__, "gaussian.png"), imgc)

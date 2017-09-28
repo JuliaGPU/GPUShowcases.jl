@@ -6,18 +6,18 @@ Show case ported from:
 
 
 ```@raw html
-  <video width="320" height="240" controls>
+  <video width="512" height="512" controls>
   <source src="pde1.webm" type="video/webm">
-  Your browser does not support the video tag.
+  Your browser does not support webm. Please use a modern browser like Chrome or Firefox.
   </video>
 ```
 
 
-#PDE 2
+# PDE 2
 
 ```@raw html
-  <video width="320" height="240" controls>
+  <video width="960" height="540" controls>
   <source src="pde2.webm" type="video/webm">
-  Your browser does not support the video tag.
+  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.
   </video>
 ```

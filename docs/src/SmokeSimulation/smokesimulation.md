@@ -1,8 +1,8 @@
 # Smoke Simulation
 
 ```@raw html
-<video width="320" height="240" controls>
+<video width="960" height="540" controls>
   <source src="smoke_simulation.webm" type="video/webm">
-  Your browser does not support the video tag.
+  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.
 </video>
 ```

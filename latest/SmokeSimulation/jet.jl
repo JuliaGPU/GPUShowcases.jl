@@ -1,6 +1,8 @@
 using SchroedingersSmoke, CLArrays
 using Colors, GPUArrays, GeometryTypes, GLAbstraction
 
+ArrayType = CLArray
+
 vol_size = (4,2,2)# box size
 dims = (64, 32, 32) .* 2 # volume resolution
 hbar = 0.1f0      # Planck constant
@@ -11,8 +13,6 @@ nozzle_cen = Float32.((2-1.7, 1-0.034, 1+0.066))
 nozzle_len = 0.5f0
 nozzle_rad = 0.5f0
 n_particles = 500   # number of particles
-
-ArrayType = CLArray
 
 isf = ISF{ArrayType, UInt32, Float32}(vol_size, dims, hbar, dt);
 
@@ -29,7 +29,6 @@ for iter = 1:10
     restrict_velocity!(isf, psi, kvec, isjetarr, 0f0)
     pressure_project!(isf, psi)
 end
-
 
 particles = ArrayType(map(x-> (0f0, 0f0, 0f0), 1:(10^6)))
 
@@ -140,14 +139,9 @@ _view(visualize(
 dt = isf.dt; d = isf.d
 iter = 1
 
-GLWindow.poll_glfw()
-GLWindow.reactive_run_till_now()
-GLWindow.render_frame(w)
-GLWindow.swapbuffers(w)
-
 io, buffer = GLVisualize.create_video_stream("test.mkv", w)
 
-
+# main simulation loop
 while isopen(w)
     t = iter * dt
     # incompressible Schroedinger flow

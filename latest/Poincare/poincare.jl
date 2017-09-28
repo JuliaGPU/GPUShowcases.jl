@@ -1,10 +1,6 @@
 using CLArrays, GPUArrays
 using FileIO, Interpolations, Colors, ColorVectorSpace, FixedPointNumbers
 
-
-# Original poincare implementation by https://github.com/RainerEngelken
-# GPU version by Simon Danisch
-
 function poincare_inner{N}(rv, result, c, π, ::Val{N}, n)
     # find next spiking neuron
     ϕ₁, ϕ₂, ϕ₃ = rv[1], rv[2], rv[3]
@@ -66,18 +62,6 @@ poincare_inner(ND, seeds, Base.RefValue(result), c, Float32(pi), Val{_n}())
 cmap = interpolate(([
     RGB(0.0, 0.0, 0),
     RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
-    RGB(0.2, 0.2, 0.9),
     RGB(0.2, 0.6, 0.9),
     RGB(0.7, 0.7, 0.98),
     RGB(0.8, 0.8, 0.9),
@@ -99,4 +83,4 @@ img_color = map(resultcpu) do val
     RGB{N0f8}(cmap[idx])
 end
 #save as an image
-save(joinpath(@__DIR__, "..", "assets", "poincare.png"), img_color)
+save(joinpath(@__DIR__, "poincare.png"), img_color)

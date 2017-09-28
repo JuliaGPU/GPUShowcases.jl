@@ -13,7 +13,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Home",
     "title": "GPU Showcases",
     "category": "section",
-    "text": "If you're starting with Julia and GPU development you came just to the right place! This websites contains a couple of code samples using Julia's GPU infrastructure, together with explanations and the graphical output.Have a look at:Smoke Simulation<video width=\"20%\" controls>\n  <source src=\"SmokeSimulation/smoke_simulation.webm\" type=\"video/webm\">\n  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.\n</video>PDE 1<video width=\"20%\" controls>\n  <source src=\"pde1.webm\" type=\"video/webm\">\n  Your browser does not support webm. Please use a modern browser like Chrome or Firefox.\n</video>PDE 2<video width=\"20%\" controls>\n  <source src=\"pde2.webm\" type=\"video/webm\">\n  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.\n</video>Poincare(Image: )MNIST"
+    "text": "If you're starting with Julia and GPU development you came just to the right place! This websites contains a couple of code samples using Julia's GPU infrastructure, together with explanations and the graphical output.Have a look at:Smoke Simulation<video width=\"40%\" controls=\"false\">\n  <source src=\"SmokeSimulation/smoke_simulation.webm\" type=\"video/webm\">\n  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.\n</video>PDE 1<video width=\"40%\" controls=\"false\">\n  <source src=\"PDE/pde1.webm\" type=\"video/webm\">\n  Your browser does not support webm. Please use a modern browser like Chrome or Firefox.\n</video>PDE 2<video width=\"40%\" controls=\"false\">\n  <source src=\"PDE/pde2.webm\" type=\"video/webm\">\n  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.\n</video>Poincare(Image: )Convolution(Image: )MNIST"
 },
 
 {
@@ -85,7 +85,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Convolution",
     "title": "Convolution",
     "category": "section",
-    "text": "using GPUArrays, Colors, FileIO, ImageFiltering\nusing CLArrays\n\nimg = RGB{Float32}.(load(joinpath(@__DIR__, \"..\", \"Poincare\", \"poincare.png\")))\n\na = CLArray(img);\nout = similar(a);\nk = CLArray(Float32.(collect(Kernel.gaussian(7))));\nimgc = similar(img)\n\nGPUArrays.convolution!(a, out, k)\ncopy!(imgc, out)\nsave(joinpath(@__DIR__, \"gaussian.png\"), imgc)Results in: (Image: ) (Image: )"
+    "text": "using GPUArrays, Colors, FileIO, ImageFiltering\nusing CLArrays\n\nimg = RGB{Float32}.(load(joinpath(@__DIR__, \"..\", \"Poincare\", \"poincare.png\")))\n\na = CLArray(img);\nout = similar(a);\nk = CLArray(Float32.(collect(Kernel.gaussian(7))));\nimgc = similar(img)\n\nGPUArrays.convolution!(a, out, k)\ncopy!(imgc, out)\nsave(joinpath(@__DIR__, \"gaussian.png\"), imgc)Results in:(Image: ) (Image: )"
 },
 
 {

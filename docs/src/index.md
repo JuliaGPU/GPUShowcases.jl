@@ -9,7 +9,7 @@ Have a look at:
 [Smoke Simulation](@ref)
 
 ```@raw html
-<video width="20%" controls>
+<video width="40%" controls="false">
   <source src="SmokeSimulation/smoke_simulation.webm" type="video/webm">
   Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.
 </video>
@@ -18,8 +18,8 @@ Have a look at:
 [PDE 1](@ref)
 
 ```@raw html
-<video width="20%" controls>
-  <source src="pde1.webm" type="video/webm">
+<video width="40%" controls="false">
+  <source src="PDE/pde1.webm" type="video/webm">
   Your browser does not support webm. Please use a modern browser like Chrome or Firefox.
 </video>
 ```
@@ -27,15 +27,18 @@ Have a look at:
 [PDE 2](@ref)
 
 ```@raw html
-<video width="20%" controls>
-  <source src="pde2.webm" type="video/webm">
+<video width="40%" controls="false">
+  <source src="PDE/pde2.webm" type="video/webm">
   Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.
 </video>
 ```
 
 [Poincare](@ref)
 
-![](poincare.png)
+![](Poincare/poincare.png)
 
+[Convolution](@ref)
+
+![](Convolution/gaussian.png)
 
 [MNIST](@ref)

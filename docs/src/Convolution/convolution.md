@@ -18,4 +18,5 @@ save(joinpath(@__DIR__, "gaussian.png"), imgc)
 ```
 
 Results in:
-![](../Poincare/poincare.png) ![](../gaussian.png)
+
+![](../Poincare/poincare.png) ![](gaussian.png)

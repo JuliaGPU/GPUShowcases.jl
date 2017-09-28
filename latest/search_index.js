@@ -37,7 +37,7 @@ var documenterSearchIndex = {"docs": [
     "page": "PDE 1",
     "title": "PDE 1",
     "category": "section",
-    "text": "Show case ported from:Kuramoto-Sivashinksy-benchmark  <dt>Definition list</dt>\n  <dd>Is something people use sometimes.</dd>\n\n  <dt>Markdown in HTML</dt>\n  <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>\n</dl>  <video width=\"320\" height=\"240\" controls>\n  <source src=\"assets/pd1.webm\" type=\"video/webm\">\n  Your browser does not support the video tag.\n  </video>"
+    "text": "Show case ported from:Kuramoto-Sivashinksy-benchmark  <video width=\"320\" height=\"240\" controls>\n  <source src=\"pde1.webm\" type=\"video/webm\">\n  Your browser does not support the video tag.\n  </video>#PDE 2  <video width=\"320\" height=\"240\" controls>\n  <source src=\"pde2.webm\" type=\"video/webm\">\n  Your browser does not support the video tag.\n  </video>"
 },
 
 {
@@ -69,7 +69,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Smoke Simulation",
     "title": "Smoke Simulation",
     "category": "section",
-    "text": "<video width=\"320\" height=\"240\" controls>\n  <source src=\"assets/test.webm\" type=\"video/webm\">\n  Your browser does not support the video tag.\n</video>"
+    "text": "<video width=\"320\" height=\"240\" controls>\n  <source src=\"smoke_simulation.webm\" type=\"video/webm\">\n  Your browser does not support the video tag.\n</video>"
 },
 
 ]}

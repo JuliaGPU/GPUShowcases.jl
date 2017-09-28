@@ -17,5 +17,5 @@ copy!(imgc, out)
 save(joinpath(@__DIR__, "gaussian.png"), imgc)
 ```
 
-Before:
+Results in:
 ![](../Poincare/poincare.png) ![](../gaussian.png)

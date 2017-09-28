@@ -7,7 +7,7 @@ makedocs(
     pages = [
         "Home" => "index.md",
         "Showcases" => [
-            "SmokeSimulation/smokesimulation.md"
+            "SmokeSimulation/smokesimulation.md",
             "PDE/pde.md",
             "Poincare/poincare.md",
             "Convolution/convolution.md",

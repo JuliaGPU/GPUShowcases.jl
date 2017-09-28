@@ -10,5 +10,4 @@ imgc = similar(img)
 
 GPUArrays.convolution!(a, out, k)
 copy!(imgc, out)
-imgc
 save(joinpath(@__DIR__, "gaussian.png"), imgc)

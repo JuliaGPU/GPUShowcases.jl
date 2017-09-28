@@ -6,9 +6,10 @@ x, y = traindata()
 y = onehotbatch(y, 0:9)
 
 m = Chain(
-  Dense(28^2, 32, σ),
-  Dense(32, 10),
-  softmax)
+    Dense(28^2, 32, σ),
+    Dense(32, 10),
+    softmax
+)
 
 using CLArrays
 using GPUArrays: JLArray

@@ -4,9 +4,7 @@ Some PDE algorithms visualized and ported for the GPU.
 
 # PDE 1
 
-Show case ported from:
 
-[Kuramoto-Sivashinksy-benchmark](https://github.com/johnfgibson/julia-pde-benchmark/blob/master/1-Kuramoto-Sivashinksy-benchmark.ipynb)
 
 ```Julia
 using CLArrays, GLVisualize, GeometryTypes, GLAbstraction, StaticArrays
@@ -107,6 +105,10 @@ GLWindow.destroy!(w)
 
 
 # PDE 2
+
+Show case ported from:
+
+[Kuramoto-Sivashinksy-benchmark](https://github.com/johnfgibson/julia-pde-benchmark/blob/master/1-Kuramoto-Sivashinksy-benchmark.ipynb)
 
 ```Julia
 using CLArrays, GLVisualize, GPUArrays, GLAbstraction, GeometryTypes

@@ -34,15 +34,23 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "PDE/pde.html#",
-    "page": "PDE 1",
-    "title": "PDE 1",
+    "page": "PDE",
+    "title": "PDE",
     "category": "page",
     "text": ""
 },
 
 {
+    "location": "PDE/pde.html#PDE-1",
+    "page": "PDE",
+    "title": "PDE",
+    "category": "section",
+    "text": "Some PDE algorithms visualized and ported for the GPU."
+},
+
+{
     "location": "PDE/pde.html#PDE-1-1",
-    "page": "PDE 1",
+    "page": "PDE",
     "title": "PDE 1",
     "category": "section",
     "text": "Show case ported from:Kuramoto-Sivashinksy-benchmarkusing CLArrays, GLVisualize, GeometryTypes, GLAbstraction, StaticArrays\n\nTY = Float32\nN = 1024\nconst h    = TY(2*π/N)\nconst epsn = TY(h * .5)\nconst C    = TY(2/epsn)\nconst tau  = TY(epsn * h)\nTfinal = 50.\n\nS(x,y) = exp(-x^2/0.1f0)*exp(-y^2/0.1f0)\n\nArrayType = CLArray\n# real-space and reciprocal-space grids\n# the real-space grid is just used for plotting!\nX_cpu = convert.(TY, collect(linspace(-pi+h, pi, N)) .* ones(1,N))\nX = ArrayType(X_cpu);\nk = collect([0:N/2; -N/2+1:-1]);\nÂ = ArrayType(convert.(TY,kron(k.^2, ones(1,N)) + kron(ones(N), k'.^2)));\n\n# initial condition\nuc = ArrayType(TY(2.0)*(rand(TY, N, N)-TY(0.5)))\n\n#################################################################\n#################################################################\n\npow3(u) = complex((u * u * u) - u)\nfunction take_step!(u, Â, t_plot, fftplan!, ifftplan!, u3fft, uc, tmp)\n    u3fft .= pow3.(u)\n    fftplan! * u3fft\n    uc .= complex.(u)\n    fftplan! * uc\n    @. tmp .= ((1f0+C*tau*Â) .* uc .- tau/epsn * (Â .* u3fft)) ./ (1f0+(epsn*tau)*Â.^2f0+C*tau*Â)\n    ifftplan! * tmp\n    u .= real.(tmp)\n    nothing\nend\nfunction normalise_af!(u, out)\n    out .= u .- minimum(u)\n    out .= out ./ maximum(out)\n    nothing\nend\n#################################################################\n#################################################################\n\nn = 1\nT_plot = 0.01; t_plot = 0.0\nceil(Tfinal / tau)\nup = copy(uc)\nucc = complex.(uc)\nfftplan! = plan_fft!(ucc)\nifftplan! = plan_ifft!(ucc)\nu3fft = similar(ucc)\ntmp = similar(ucc)\n\nw = glscreen(resolution = (N, N))\nnormalise_af!(uc,up)\nup .= up .* 0.1f0\nrobj = visualize(\n    reinterpret(Intensity{Float32}, Array(up)),\n    stroke_width = 0f0,\n    levels = 20f0,\n    color_map = Colors.colormap(\"RdBu\", 100),\n    color_norm = Vec2f0(0, 0.1)\n).children[]\n_view(robj, position = Vec3f0(0, 0.5, 2.5), lookat = Vec3f0(0))\nio, buffer = GLVisualize.create_video_stream(homedir()*\"/Desktop/pd1.mkv\", w)\ncenter!(w, :orthographic_pixel)\nidx = 0\nwhile isopen(w)\n    take_step!(uc, Â, t_plot, fftplan!, ifftplan!, u3fft, ucc, tmp)\n    t_plot += tau\n    normalise_af!(uc, up)\n    up .= up .* 0.1f0\n    GLAbstraction.update!(robj[:intensity], reinterpret(SVector{1, Float32}, Array(up)))\n    GLWindow.poll_glfw()\n    GLWindow.reactive_run_till_now()\n    GLWindow.render_frame(w)\n    GLWindow.swapbuffers(w)\n    if idx == 4\n        GLVisualize.add_frame!(io, w, buffer)\n        idx = 0\n    end\n    idx += 1\nend\nclose(io)\nGLWindow.destroy!(w)<video width=\"100%\" controls>\n  <source src=\"pde1.webm\" type=\"video/webm\">\n  Your browser does not support webm. Please use a modern browser like Chrome or Firefox.\n</video>"
@@ -50,7 +58,7 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "PDE/pde.html#PDE-2-1",
-    "page": "PDE 1",
+    "page": "PDE",
     "title": "PDE 2",
     "category": "section",
     "text": "using CLArrays, GLVisualize, GPUArrays, GLAbstraction, GeometryTypes\n\n# source: https://github.com/johnfgibson/julia-pde-benchmark/blob/master/1-Kuramoto-Sivashinksy-benchmark.ipynb\nfunction inner_ks(n, IFFT!, FFT!, Nt, Nn, Nn1, u, G, A_inv, B, dt2, dt32, uslice, U)\n    Nn1 .= Nn       # shift nonlinear term in time\n    Nn .= u         # put u into Nn in prep for comp of nonlinear term\n\n    IFFT! * Nn\n\n    # plotting\n    uslice .= real.(Nn) ./ 10f0\n    U[1:Nt, n] = reshape(Array(uslice), (Nt, 1)) # copy from gpu to opengl gpu not implemented for now\n\n    # transform Nn to gridpt values, in place\n    Nn .= Nn .* Nn   # collocation calculation of u^2\n    FFT!*Nn        # transform Nn back to spectral coeffs, in place\n\n    Nn .= G .* Nn    # compute Nn == -1/2 d/dx (u^2) = -u u_x\n\n    # loop fusion! Julia translates the folling line of code to a single for loop.\n    u .= A_inv .* (B .* u .+ dt32 .* Nn .- dt2 .* Nn1)\nend\n\nT = Float32; AT = CLArray\nN = 1000\nLx = T(64*pi)\nNx = T(N)\ndt = T(1/16)\n\nx = Lx*(0:Nx-1)/Nx\nu = T.(cos.(x) + 0.1*sin.(x/8) + 0.01*cos.((2*pi/Lx)*x))\n\nu = AT((T(1)+T(0)im)*u)             # force u to be complex\nNx = length(u)                      # number of gridpoints\nkx = T.(vcat(0:Nx/2-1, 0:0, -Nx/2+1:-1))# integer wavenumbers: exp(2*pi*kx*x/L)\nalpha = T(2)*pi*kx/Lx                  # real wavenumbers:    exp(alpha*x)\n\nD = T(1)im*alpha                       # spectral D = d/dx operator\n\nL = alpha.^2 .- alpha.^4            # spectral L = -D^2 - D^4 operator\n\nG = AT(T(-0.5) .* D)               # spectral -1/2 D operator, to eval -u u_x = 1/2 d/dx u^2\n\n# convenience variables\ndt2  = T(dt/2)\ndt32 = T(3*dt/2)\nA_inv = AT((ones(T, Nx) - dt2*L).^(-1))\nB = AT(ones(T, Nx) + dt2*L)\n\n# compute in-place FFTW plans\nFFT! = plan_fft!(u)\nIFFT! = plan_ifft!(u)\n\n# compute nonlinear term Nn == -u u_x\npowed = u .* u\nNn = G .* fft(powed);    # Nn == -1/2 d/dx (u^2) = -u u_x\nNn1 = copy(Nn);        # Nn1 = Nn at first time step\nFFT! * u;\n\nuslice = real(u)\nU = zeros(Float32, N, N)\n\nw = glscreen(resolution = (1920, 1080))\n\nrobj = visualize(\n    U, :surface, color_norm = Vec2f0(-0.1, 0.1),\n    ranges = ((-3f0, 3f0), (-3f0, 3f0))\n).children[]\nUgpu = robj[:position_z]\n\n# setup camera and view object\n_view(robj, position = Vec3f0(-4.33, 3.8, -2.7), lookat = Vec3f0(-0.23, 0.5, 0.7))\ncam = w.cameras[:perspective]\npush!(cam.up, Vec3f0(0.3, -0.33, -0.9))\n\nio, buffer = GLVisualize.create_video_stream(homedir()*\"/Desktop/pd2.mkv\", w)\nfor n in 1:N\n    isopen(w) || break\n    inner_ks(n, (IFFT!), (FFT!), N, Nn, Nn1, u, G, A_inv, B, dt2, dt32, uslice, Ugpu)\n    GLWindow.poll_glfw()\n    GLWindow.reactive_run_till_now()\n    GLWindow.render_frame(w)\n    GLWindow.swapbuffers(w)\n    (n % 4 == 0) && GLVisualize.add_frame!(io, w, buffer)\nend\nclose(io)\nGLWindow.destroy!(w)<video width=\"100%\" controls>\n  <source src=\"pde2.webm\" type=\"video/webm\">\n  Your browser does not support the video tag. Please use a modern browser like Chrome or Firefox.\n</video>"

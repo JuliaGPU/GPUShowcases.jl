@@ -16,6 +16,8 @@ m = Chain(
     softmax
 )
 
+using CuArrays
+# or CLArrays (you then need to use cl
 
 x, y = cu(x), cu(y)
 m = mapparams(cu, m)

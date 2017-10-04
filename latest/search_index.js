@@ -109,7 +109,7 @@ var documenterSearchIndex = {"docs": [
     "page": "MNIST",
     "title": "MNIST",
     "category": "section",
-    "text": "From the model zoousing Flux, MNIST, CuArrays\nusing Flux: onehotbatch, argmax, mse, throttle\nusing Base.Iterators: repeated\n\nx, y = traindata()\ny = onehotbatch(y, 0:9)\n\nm = Chain(\n    Dense(28^2, 32, σ),\n    Dense(32, 10),\n    softmax\n)\n\n\nx, y = cu(x), cu(y)\nm = mapparams(cu, m)\nloss(x, y) = mse(m(x), y)\n\ndataset = repeated((x, y), 500)\nevalcb = () -> @show(loss(x, y))\nopt = SGD(params(m), 1)\n\nFlux.train!(loss, dataset, opt, cb = throttle(evalcb, 10))\n\n# Check the prediction for the first digit\nargmax(m(x[:,1]), 0:9) == argmax(y[:,1], 0:9)"
+    "text": "From the model zoousing Flux, MNIST, CuArrays\nusing Flux: onehotbatch, argmax, mse, throttle\nusing Base.Iterators: repeated\n\nx, y = traindata()\ny = onehotbatch(y, 0:9)\n\nm = Chain(\n    Dense(28^2, 32, σ),\n    Dense(32, 10),\n    softmax\n)\n\nusing CuArrays\n# or CLArrays (you then need to use cl\n\nx, y = cu(x), cu(y)\nm = mapparams(cu, m)\nloss(x, y) = mse(m(x), y)\n\ndataset = repeated((x, y), 500)\nevalcb = () -> @show(loss(x, y))\nopt = SGD(params(m), 1)\n\nFlux.train!(loss, dataset, opt, cb = throttle(evalcb, 10))\n\n# Check the prediction for the first digit\nargmax(m(x[:,1]), 0:9) == argmax(y[:,1], 0:9)"
 },
 
 ]}

@@ -2,7 +2,7 @@
 
 Poincare section of a chaotic neuronal network.
 
-Original poincare implementation was written by [Raner Engelken](https://github.com/RainerEngelken)
+Original poincare implementation was written by [Rainer Engelken](https://github.com/RainerEngelken)
 It was ported to the GPU by [Simon Danisch](https://github.com/SimonDanisch/)
 
 

@@ -18,9 +18,12 @@ function poincare_inner{N}(rv, result, c, π, ::Val{N}, n)
                 # save state of neuron 2 and 3
                 x = Cuint(max(round(((ϕ₂ + πh) / π) * (Float32(n) - 1f0)) + 1f0, 1f0))
                 y = Cuint(max(round(((ϕ₃ + πh) / π) * (Float32(n) - 1f0)) + 1f0, 1f0))
-                accum = result[x, y]
-                # this is unsafe, since it could read + write from different threads, but good enough for the stochastic kind of process we're doing
-                result[i1d] = accum + 1f0
+                i1d = GPUArrays.gpu_sub2ind((n, n), (x, y))
+                @inbounds if i1d <= Cuint(n * n) && i1d > Cuint(0)
+                    accum = result[i1d]
+                    # this is unsafe, since it could read + write from different threads, but good enough for the stochastic kind of process we're doing
+                    result[i1d] = accum + 1f0
+                end
                 continue
             end
         else
@@ -70,15 +73,10 @@ cmap = interpolate(([
 
 cn = length(cmap)
 resultcpu = Array(result)
-extrema(log.(resultcpu))
 
 img_color = map(resultcpu) do val
-    val = maxi - val
-    if val ≈ 0.0
-        val = 0.01
-    end
-    val = log(val)
-    val = clamp(val, 0f0, 1f0);
+    val = log(1.0 + log(1.0 + val))
+    val = clamp(1.0 - val, 0f0, 1f0);
     idx = (val * (cn - 1)) + 1.0
     RGB{N0f8}(cmap[idx])
 end
